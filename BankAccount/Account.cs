@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// CPW 211 Week 5
 namespace BankAccount
 {
     /// <summary>
@@ -37,7 +38,13 @@ namespace BankAccount
         /// <param name="amt">The positive amount to deposit</param>
         /// <returns>The new balance after the deposit</returns>
         public double Deposit(double amt)
-        { 
+        {
+            if (amt <= 0) 
+            {
+                throw new ArgumentOutOfRangeException($"The {nameof(amt)} must be more than 0");
+                // nameof 가 나중에 저거 혹시 rename 해줄때 같이 될수있게 하는거
+            }
+
             Balance += amt;
             return Balance;
         }
@@ -46,9 +53,11 @@ namespace BankAccount
         /// Withdraws an amount of money from the balance
         /// </summary>
         /// <param name="amt">The positive amount of money to be taken from the balance</param>
-        public void Withdraw(double amt)
+        /// <returns>Updated balance after withdrawal</returns>    
+        public double Withdraw(double amt)
         {
-            throw new NotImplementedException();
+            Balance -= amt;
+            return Balance;
         }
     }
 }
