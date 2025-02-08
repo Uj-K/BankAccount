@@ -14,7 +14,7 @@ namespace BankAccount.Tests
         private Account acc;
 
         [TestInitialize] // 테스트 될때 한번만 실행됨
-        public void CreateDefaultAccount() 
+        public void CreateDefaultAccount()
         {
             acc = new Account("J. Doe");
         }
@@ -61,7 +61,7 @@ namespace BankAccount.Tests
                 (() => acc.Deposit(invalidDepositAmount));
             // 여기 괄호는 funtion 에 이름이 없을때 쓴다.
 
-            
+
         }
 
         // Test Driven Development - 테스트를 먼저 하는 방식으로 코드를 적는것
@@ -83,9 +83,29 @@ namespace BankAccount.Tests
             double actualBalance = acc.Balance;
 
             //assert
-            Assert.AreEqual (expectedBalance, actualBalance);
+            Assert.AreEqual(expectedBalance, actualBalance);
+        }
+
+
+        [TestMethod]
+        public void Withdraw_PositiveAmount_ReturnUpdatedBalance()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-.01)]
+        [DataRow(-1000)]
+        public void Withdraw_ZeroOrLess_ThrowsArgumentOutRangeException()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void Withdraw_MoreThanAvailableBalance_ThrowsArgumentException()
+        {
+            Assert.Fail();
         }
     }
-
-
 }
