@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,11 +14,13 @@ namespace BankAccount
     /// </summary>
     public class Account
     {
+        private string owner; // Backing field
+
         /// <summary>
         /// Represents a single costumers bank account and a balance of 0
         /// </summary>
         /// <param name="accOwner">The customer full name that owns the account</param>
-        public Account(string accOwner)
+        public Account(string accOwner) // Constructor
         {
             Owner = accOwner;
         }
@@ -25,12 +28,33 @@ namespace BankAccount
         /// <summary>
         /// The account holders full name (first and last)
         /// </summary>
-        public string Owner {  get; set; }
+        public string Owner // // Fully implemented property
+        {
+            get { return owner; }
+
+            set 
+            {
+                if (value == null) 
+                {
+                    throw new ArgumentNullException($"nameof(value) cannot be null");
+                }
+
+                if (value.Trim() == String.Empty)
+                {
+                    throw new ArgumentException($"nameof(value) cannot be blank");
+                }
+
+                owner = value;
+                /*owner = value ?? throw new ArgumentNullException($"nameof(value) cannot be null");
+                          Null Coalescing Operator (??) : 왼쪽이 null이면 오른쪽 반환
+                 * if (value == null) 대신에 쓰였다.*/
+            }
+        }
 
         /// <summary>
         /// The amount of money currently in the account
         /// </summary>
-        public double Balance { get; private set; }
+        public double Balance { get; private set; } // Auto-Implemented Property
 
         /// <summary>
         /// Adds a specified amount of money to the account

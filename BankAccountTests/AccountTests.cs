@@ -16,7 +16,7 @@ namespace BankAccount.Tests
         [TestInitialize] // 테스트 될때 한번만 실행됨
         public void CreateDefaultAccount()
         {
-            acc = new Account("J. Doe");
+            acc = new Account("J Doe");
         }
 
         [TestMethod()] // parameter 넘겨줄때만 () 필요하고 없어도 된다. 옵셔널
@@ -24,6 +24,7 @@ namespace BankAccount.Tests
         [DataRow(.01)]
         [DataRow(1.999)]
         [DataRow(9999.99)]
+        [TestCategory("Deposit")]
         public void Deposit_APositiveAmount_AddToBalance(double depositAmount)
         {
             acc.Deposit(depositAmount);
@@ -35,6 +36,7 @@ namespace BankAccount.Tests
         // Unit test has AAA pattern : Arrange, Act and Assert
 
         [TestMethod]
+        [TestCategory("Deposit")]
         public void Deposit_APositiveAmount_ReturnsUpdatedBalance()
         {
             //Arrange (Set up)
@@ -51,6 +53,7 @@ namespace BankAccount.Tests
         [TestMethod]
         [DataRow(-1)] // 테스트할 데이터 넘기는 곳
         [DataRow(0)] // 여러개 넘길수 있어서 같은 코드 여려번 안쓰고 좋음 그리고 이게 저 파라미터 invalidDepositAmount로 넘어감
+        [TestCategory("Deposit")]
         public void Deposit_ZeroOrLess_ThrowsArgumentException(double invalidDepositAmount)
         {
             //Arrange
@@ -69,6 +72,7 @@ namespace BankAccount.Tests
         // 그리고 테스트를 먼저 적고 go to definition 등을 통해 코드를 적는다.
 
         [TestMethod]
+        [TestCategory("Withdraw")]
         public void Withdraw_PositiveAmount_DecreasesBalance()
         {
             //arrange
@@ -91,6 +95,7 @@ namespace BankAccount.Tests
         [DataRow(100, 50)]
         [DataRow(100, .99)]
         [DataRow(100, 99)]
+        [TestCategory("Withdraw")]
         public void Withdraw_PositiveAmount_ReturnUpdatedBalance(double initialDeposit, double withdrawalAmount)
         {
             // arrange
@@ -111,6 +116,7 @@ namespace BankAccount.Tests
         [DataRow(0)]
         [DataRow(-.01)]
         [DataRow(-1000)]
+        [TestCategory("Withdraw")]
         public void Withdraw_ZeroOrLess_ThrowsArgumentOutRangeException(double withdrawalAmount)
         {
 
@@ -120,9 +126,25 @@ namespace BankAccount.Tests
 
         [TestMethod]
         [DataRow(1000)]
+        [TestCategory("Withdraw")]
         public void Withdraw_MoreThanAvailableBalance_ThrowsArgumentException(double withdrawalAmount)
         {
             Assert.ThrowsException<ArgumentException>(() => acc.Withdraw(withdrawalAmount));
+        }
+
+        [TestMethod]
+        [TestCategory("Owner")]
+        public void Owner_SetAsNull_ThrowsArgumentNullException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => acc.Owner = null);
+        }
+
+        [TestMethod]
+        [TestCategory("Owner")]
+        public void Owner_SetAsWhiteSpaceOfEmptyString_ThrowsArgumentsException()
+        {
+            Assert.ThrowsException<ArgumentException>(() => acc.Owner = String.Empty);
+            Assert.ThrowsException<ArgumentException>(() => acc.Owner = " ");
         }
     }
 }
